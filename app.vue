@@ -15,7 +15,7 @@
 <script>
 import { ethers } from 'ethers';
 import { 
-  connect, disconnect, erc20ABI, getAccount, getNetwork, getProvider, watchAccount, watchNetwork 
+  connect, disconnect, erc20ABI, fetchSigner, getAccount, getNetwork, getProvider, watchAccount, watchNetwork 
 } from '@wagmi/core';
 
 export default {
@@ -35,18 +35,30 @@ export default {
     },
 
     async fetchUsdcBalancePolygon() {
+      // read example
       const newProvider = this.getProvider();
 
-      const contract = new ethers.Contract(
+      const contractRead = new ethers.Contract(
         "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",  // USDC contract on Polygon
         this.erc20ABI, 
         newProvider
       );
 
-      const balance = await contract.balanceOf(this.address);
+      const balance = await contractRead.balanceOf(this.address);
 
       console.log("balance: ");
       console.log(balance);
+
+      // write example
+      /*
+      const signer = await fetchSigner();
+      const contractWrite = new ethers.Contract(
+        "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",  // USDC contract on Polygon
+        this.erc20ABI, 
+        signer
+      );
+      await contractWrite.transfer(this.address, "100000"); // send 0.1 USDC
+      */
     },
   },
 
@@ -81,7 +93,7 @@ export default {
       }
     });
 
-    return { address, chainId, connect, disconnect, erc20ABI, getProvider }
+    return { address, chainId, connect, disconnect, erc20ABI, fetchSigner, getProvider }
   },
 }
 </script>
