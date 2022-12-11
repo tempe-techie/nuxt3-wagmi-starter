@@ -3,7 +3,6 @@
     <h1>Nuxt3 Wagmi Starter</h1>
 
     <button @click="connectMetaMask">Connect MetaMask</button>
-    <button @click="connectWalletConnect">Connect WalletConnect</button>
     <button @click="disconnectWallet">Disconnect</button>
 
     <p>Chain: {{chainId}}</p>
@@ -25,14 +24,6 @@ export default {
       console.log(result);
     },
 
-    async connectWalletConnect() {
-      console.log("connect WalletConnect");
-
-      const result = this.$web3modal.openModal({uri: "http://localhost:3000/"});
-
-      console.log(result);
-    },
-
     async disconnectWallet() {
       console.log("disconnect");
 
@@ -50,8 +41,6 @@ export default {
     }
 
     watchNetwork(function(network) {
-      console.log(network);
-
       if (network.chain) {
         chainId.value = network.chain.id;
       } else {
